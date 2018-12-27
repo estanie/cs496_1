@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.image_entry.view.*
 class ImageAdapter : BaseAdapter {
     var imageList = ArrayList<MyImage>()
     var context: Context? = null
+
     constructor(context: Context, imageList: ArrayList<MyImage>) : super() {
         this.context = context
         this.imageList = imageList
