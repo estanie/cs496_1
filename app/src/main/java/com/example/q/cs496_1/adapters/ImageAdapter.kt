@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import com.bumptech.glide.Glide
 import com.example.q.cs496_1.models.MyImage
 import com.example.q.cs496_1.R
 import kotlinx.android.synthetic.main.image_entry.view.*
@@ -31,11 +32,10 @@ class ImageAdapter : BaseAdapter {
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val myImage = this.imageList[position]
-
+        val myImages = this.imageList[position]
         var inflator = context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         var imageView = inflator.inflate(R.layout.image_entry, null)
-        imageView.myImage.setImageResource(myImage.image!!)
+        imageView.myImage.setImageResource(myImages.image!!)
 
         return imageView
     }

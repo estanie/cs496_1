@@ -7,4 +7,4 @@
           android:numColumns="auto_fit"
           android:verticalSpacing="15dp"
           android:layout_width="match_parent"
-          android:layout_height="match_parent" tools:layout_editor_absoluteY="16dp" tools:layout_editor_absoluteX="8dp"/>
+          android:layout_height="wrap_content"/>
