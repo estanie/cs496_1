@@ -1,9 +1,11 @@
 package com.example.q.cs496_1.models
 
-class MyImage {
-    var image: Int? = null
+import android.net.Uri
 
-    constructor(image: Int) {
+class MyImage {
+    var image: Uri? = null
+
+    constructor(image: Uri) {
         this.image = image
     }
 }
