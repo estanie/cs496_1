@@ -35,8 +35,7 @@ class ImageAdapter : BaseAdapter {
         val myImages = this.imageList[position]
         var inflator = context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         var imageView = inflator.inflate(R.layout.image_entry, null)
-        imageView.myImage.setImageResource(myImages.image!!)
-
+        Glide.with(imageView).load(myImages.image!!).into(imageView.myImage)
         return imageView
     }
 }
