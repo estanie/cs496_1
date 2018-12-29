@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +16,9 @@ import kotlinx.android.synthetic.main.address_entry.view.*
 
 
 class AddressFragment: Fragment(){
-    var adapter: AddListAdapter? = null
-    var addList = arrayListOf<Address>()
+    var adapter : AddListAdapter? = null
+    var addList = arrayListOf<Address>(
+    )
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -29,11 +31,12 @@ class AddressFragment: Fragment(){
 
     override fun onStart() {
         super.onStart()
-        addListView.adapter = adapter
+        var context = getActivity() as Context
+        adapter = AddListAdapter(context,addList)
+        addRecyclerView.adapter = adapter
+        val lm = LinearLayoutManager(context)
+        addRecyclerView.layoutManager = lm
+        addRecyclerView.setHasFixedSize(true)
         // TODO(@quark325): Add data, Save data
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
     }
 }
