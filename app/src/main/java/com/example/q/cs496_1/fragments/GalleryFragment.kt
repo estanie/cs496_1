@@ -8,12 +8,14 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v4.content.FileProvider
+import android.support.v7.widget.GridLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.q.cs496_1.R
 import com.example.q.cs496_1.adapters.ImageAdapter
+import com.example.q.cs496_1.models.MyImage
 import kotlinx.android.synthetic.main.fragment_gallery.view.*
 import java.io.File
 import java.io.IOException
@@ -25,15 +27,19 @@ class GalleryFragment: Fragment() {
     val REQUEST_IMAGE_CAPTURE = 1
     var mCurrentPhotoPath = ""
     val IMAGE_PATH = "/storage/emulated/0/DCIM/cs496_1"
+    var imageList : ArrayList<MyImage>? = null
 
-    override fun onAttach(context: Context) {
+    override fun onAttach(cotext: Context) {
         super.onAttach(context)
-        adapter = ImageAdapter(context)
+        imageList = getAllShownImagesPath(context!!)
+        adapter = ImageAdapter(imageList!!, context!!)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        var view = inflater!!.inflate(R.layout.fragment_gallery, container, false)
+        var view = inflater.inflate(R.layout.fragment_gallery, container, false)
         view.imageGrid.adapter = adapter
+        view.imageGrid.layoutManager = GridLayoutManager(context, 3)
+
         view.addImgFab.setOnClickListener { view ->
             dispatchTakePictureIntent()
         }
@@ -79,5 +85,17 @@ class GalleryFragment: Fragment() {
             context!!.sendBroadcast(mediaScanIntent)
             adapter!!.addImageToList(mCurrentPhotoPath)
         }
+    }
+
+    private fun getAllShownImagesPath(context: Context) : ArrayList<MyImage> {
+        val uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        val projection: Array<String> = arrayOf(MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
+        var cursor = context.contentResolver.query(uri,projection, null, null, null)
+        var allImageList = ArrayList<MyImage>()
+        val columnIndexData = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
+        while (cursor.moveToNext()) {
+            allImageList.add(MyImage(cursor.getString(columnIndexData)))
+        }
+        return allImageList
     }
 }
