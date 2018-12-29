@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.q.cs496_1.R
 import kotlinx.android.synthetic.main.activity_image_detail.*
-import kotlinx.android.synthetic.main.image_entry.view.*
 import java.io.File
 
 class ImageDetailActivity : AppCompatActivity() {
