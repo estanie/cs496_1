@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import android.view.Window
 import com.example.q.cs496_1.R
 import com.example.q.cs496_1.adapters.MyPagerAdapter
 import com.example.q.cs496_1.models.Address
@@ -13,13 +14,20 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
     private val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
     private val MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1
+    private val MY_PERMISSIONS_REQUEST_INTERNET = 1
+    private val MY_PERMISSIONS_REQUEST_CAMERA = 1
 
     //var addList = arrayListOf<Address>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        supportActionBar!!.hide()
+
         setContentView(R.layout.activity_main)
 
+        //TODO(@estanie): If the user installed once, makes don't exit.
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
@@ -29,6 +37,14 @@ class MainActivity : AppCompatActivity() {
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
                 MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE)
+        }
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.INTERNET),
+                MY_PERMISSIONS_REQUEST_INTERNET)
+        }
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA),
+                MY_PERMISSIONS_REQUEST_CAMERA)
         }
         
         val fragmentAdapter = MyPagerAdapter(supportFragmentManager)

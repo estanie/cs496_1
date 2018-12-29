@@ -44,7 +44,6 @@ class ImageAdapter : BaseAdapter {
         Glide.with(imageView)
             .load(File(myImage.path!!))
             .into(imageView.myImage)
-
         imageView.setOnClickListener {
             val intent = Intent(context, ImageDetailActivity::class.java)
             intent.putExtra("image", imageList[position!!].path)
@@ -65,8 +64,13 @@ class ImageAdapter : BaseAdapter {
         return imageView
     }
 
+    fun addImageToList(path: String) {
+        imageList.add(MyImage(path))
+        notifyDataSetChanged()
+    }
+
     private fun getAllShownImagesPath(context: Context) : ArrayList<MyImage> {
-        val uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        val uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val projection: Array<String> = arrayOf(MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
         var cursor = context.contentResolver.query(uri,projection, null, null, null)
         var allImageList = ArrayList<MyImage>()

@@ -5,8 +5,9 @@
                                              xmlns:app="http://schemas.android.com/apk/res-auto">
     <ImageView
             android:id="@+id/myImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
     />
  <!-- TODO(@estanie): Changes the design. -->
 </android.support.constraint.ConstraintLayout>
