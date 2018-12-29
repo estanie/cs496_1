@@ -11,15 +11,22 @@ import com.example.q.cs496_1.R
 import com.example.q.cs496_1.models.Address
 
 class AddListAdapter (val context: Context, val addList: ArrayList<Address>) : BaseAdapter() {
+    private class ViewHolder{
+        var addPhoto : ImageView? = null
+        var addName : TextView? = null
+        var addNumber : TextView? = null
+    }
+
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view: View
         val holder : ViewHolder
 
         if (convertView == null){
-            view = LayoutInflater.from(context).inflate(R.layout.main_rv_item, null)
+            view = LayoutInflater.from(context).inflate(R.layout.address_entry, null)
             holder = ViewHolder()
             holder.addPhoto = view.findViewById(R.id.addPhoto)
             holder.addName = view.findViewById(R.id.addName)
+            holder.addNumber = view.findViewById(R.id.addNumber)
 
             view.tag = holder
         }else{
@@ -32,6 +39,7 @@ class AddListAdapter (val context: Context, val addList: ArrayList<Address>) : B
         val resourceId = context.resources.getIdentifier(address.photo, "drawable", context.packageName)
         holder.addPhoto?.setImageResource(resourceId)
         holder.addName?.text = address.name
+        holder.addNumber?.text = address.number
 
         return view
     }
@@ -46,10 +54,5 @@ class AddListAdapter (val context: Context, val addList: ArrayList<Address>) : B
 
     override fun getCount(): Int {
         return addList.size
-    }
-
-    private class ViewHolder{
-        var addPhoto : ImageView? = null
-        var addName : TextView? = null
     }
 }

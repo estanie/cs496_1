@@ -7,11 +7,14 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import com.example.q.cs496_1.R
 import com.example.q.cs496_1.adapters.MyPagerAdapter
+import com.example.q.cs496_1.models.Address
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
     private val MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1
+
+    //var addList = arrayListOf<Address>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,14 +34,5 @@ class MainActivity : AppCompatActivity() {
         val fragmentAdapter = MyPagerAdapter(supportFragmentManager)
         viewPager.adapter = fragmentAdapter
         tabsMain.setupWithViewPager(viewPager)
-
-        /*
-        code for test addList
-        addButton.setOnClickListener {
-            val intent = Intent(this, AddActivity::class.java)
-            startActivity(intent)
-        }
-        */
-
     }
 }
