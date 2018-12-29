@@ -3,9 +3,12 @@ package com.example.q.cs496_1.models
 import android.net.Uri
 
 class MyImage {
-    var image: Uri? = null
+    var path: String? = null
 
-    constructor(image: Uri) {
-        this.image = image
+    constructor(path: Uri) {
+        this.path = path.path
+    }
+    constructor(path: String) {
+        this.path = path
     }
 }

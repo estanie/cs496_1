@@ -1,55 +1,47 @@
 package com.example.q.cs496_1.fragments
 
-import android.app.Activity.RESULT_OK
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.q.cs496_1.R
 
-
 import com.example.q.cs496_1.adapters.ImageAdapter
 import com.example.q.cs496_1.models.MyImage
-import kotlinx.android.synthetic.main.fragment_gallery.*
+import kotlinx.android.synthetic.main.fragment_gallery.view.*
 
-class GalleryFragment: Fragment(){
-    private val REQUEST_CODE_BROWSE_IMAGE: Int = 1
-    var adapter: ImageAdapter? = null
-    var imageList = ArrayList<MyImage>()
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater!!.inflate(R.layout.fragment_gallery, container, false)
-    }
+class GalleryFragment: Fragment() {
+    private var adapter: ImageAdapter? = null
+    private var imageList = ArrayList<MyImage>()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        imageList = getAllShownImagesPath(context)
         adapter = ImageAdapter(context, imageList)
     }
 
-    override fun onStart() {
-        super.onStart()
-        imageGrid.adapter = adapter
-
-        // TODO(@estanie): Saves the data using json.
-        addImgFab.setOnClickListener {view ->
-            val intent= Intent()
-                .setType("image/*")
-                .setAction(Intent.ACTION_GET_CONTENT)
-            startActivityForResult(intent, REQUEST_CODE_BROWSE_IMAGE)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        var view = inflater!!.inflate(R.layout.fragment_gallery, container, false)
+        view.imageGrid.adapter = adapter
+        view.addImgFab.setOnClickListener { view ->
+            // TODO(@estanie): Changes the functions to take picture.
         }
+        return view
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode:Int, data: Intent) {
-        if (requestCode == REQUEST_CODE_BROWSE_IMAGE) {
-            if (resultCode == RESULT_OK) {
-                val fileUri :Uri = data.data
-                imageList.add(MyImage(fileUri))
-            }
+    private fun getAllShownImagesPath(context: Context) : ArrayList<MyImage> {
+        val uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        val projection: Array<String> = arrayOf(MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
+        var cursor = context.contentResolver.query(uri,projection, null, null, null)
+        var allImageList = ArrayList<MyImage>()
+        var imagePath: String
+        val columnIndexData = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
+        while (cursor.moveToNext()) {
+            allImageList.add(MyImage(cursor.getString(columnIndexData)))
         }
+        return allImageList
     }
 }

@@ -1,6 +1,7 @@
 package com.example.q.cs496_1.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +9,9 @@ import android.widget.BaseAdapter
 import com.bumptech.glide.Glide
 import com.example.q.cs496_1.models.MyImage
 import com.example.q.cs496_1.R
+import com.example.q.cs496_1.activities.ImageDetailActivity
 import kotlinx.android.synthetic.main.image_entry.view.*
+import java.io.File
 
 class ImageAdapter : BaseAdapter {
     private var imageList = ArrayList<MyImage>()
@@ -35,7 +38,16 @@ class ImageAdapter : BaseAdapter {
         val myImage = this.imageList[position]
         val inflator = context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val imageView = inflator.inflate(R.layout.image_entry, null)
-        Glide.with(imageView).load(myImage.image!!).into(imageView.myImage)
+        imageView.myImage.setOnClickListener {
+            val intent = Intent(context, ImageDetailActivity::class.java)
+            intent.putExtra("image", myImage.path)
+            context!!.startActivity(intent)
+        }
+        Glide.with(imageView)
+            .load(File(myImage.path!!))
+            .into(imageView.myImage)
+
+
         return imageView
     }
 }
