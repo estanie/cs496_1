@@ -4,12 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.GridLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -71,7 +69,6 @@ class GalleryFragment: Fragment() {
     private fun createImageFile(): File {
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val storageDir = File(IMAGE_PATH)
-        Log.e("storigeDir", storageDir.path)
         if (!storageDir.exists()) storageDir.mkdir()
         return File.createTempFile("JPEG_${timeStamp}_",".jpg",storageDir).apply {
             mCurrentPhotoPath = absolutePath

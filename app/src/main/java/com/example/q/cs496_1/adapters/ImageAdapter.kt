@@ -4,10 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
+import android.util.DisplayMetrics
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.example.q.cs496_1.models.MyImage
@@ -29,6 +28,7 @@ class ImageAdapter(val imageList: ArrayList<MyImage>, val context: Context) : Re
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
+        changeHeight(holder)
         holder.bind(context, imageList[position])
     }
 
@@ -64,5 +64,14 @@ class ImageAdapter(val imageList: ArrayList<MyImage>, val context: Context) : Re
     fun addImageToList(path: String) {
         imageList.add(MyImage(path))
         notifyDataSetChanged()
+    }
+
+    private fun changeHeight(holder: Holder) {
+        val displayMetrics = DisplayMetrics()
+        val windowManager: WindowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        Log.e("WIDTH", ""+displayMetrics.widthPixels)
+        holder.imageView.layoutParams.width = displayMetrics.widthPixels / 3
+        holder.imageView.layoutParams.height = displayMetrics.widthPixels / 3
     }
 }
