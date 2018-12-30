@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
                 MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE)
         }
-<       if (ContextCompat.checkSelfPermission(this,
+       if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_CONTACTS),
                 MY_PERMISSIONS_REQUEST_READ_CONTACTS)
