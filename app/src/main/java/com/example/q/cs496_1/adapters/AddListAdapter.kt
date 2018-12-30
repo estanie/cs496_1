@@ -12,6 +12,7 @@ import android.widget.TextView
 import com.example.q.cs496_1.R
 import com.example.q.cs496_1.activities.AddressEditActivity
 import com.example.q.cs496_1.models.Address
+import kotlinx.android.synthetic.main.address_entry.view.*
 
 class AddListAdapter (val context: Context, val addList: ArrayList<Address>) :
     RecyclerView.Adapter<AddListAdapter.Holder>() {
@@ -32,23 +33,21 @@ class AddListAdapter (val context: Context, val addList: ArrayList<Address>) :
         val addPhoto = itemView?.findViewById<ImageView>(R.id.addPhoto)
         val addName = itemView?.findViewById<TextView>(R.id.addName)
         val addNumber = itemView?.findViewById<TextView>(R.id.addNumber)
-
         fun bind (add: Address, context: Context) {
-            if (add.photo != "") {
-                val resourceId = context.resources.getIdentifier(add.photo, "drawable", context.packageName)
-                addPhoto?.setImageResource(resourceId)
-                // TODO(@gogi): It does't work.
+            if (add.photo != null) {
+                addPhoto?.setImageBitmap(add.photo)
             }else{
                 addPhoto?.setImageResource(R.mipmap.ic_launcher)
             }
-            addName?.text=add.name
-            addNumber?.text=add.number
+            itemView.addNumber.text=add.number
+            itemView.addName.text=add.name
 
             addEntry?.setOnClickListener{
                 val intent = Intent(context, AddressEditActivity::class.java)
-                intent.putExtra("photo",add.photo)
+                if (add.photo != null) intent.putExtra("photo",add.photo)
                 intent.putExtra("name",add.name)
                 intent.putExtra("number",add.number)
+                intent.putExtra("email",add.email)
                 context.startActivity(intent)
             }
         }

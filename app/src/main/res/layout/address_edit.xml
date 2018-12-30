@@ -4,33 +4,60 @@
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
+    <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:weightSum="2">
+        <Button
+                android:id="@+id/cancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Cancel"
+        >
+        </Button>
+        <Button
+                android:id="@+id/save"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Save"
+        >
+        </Button>
+    </LinearLayout>
 
-
-
-    <ImageView
-            android:id="@+id/addBackground"
+    <android.support.v7.widget.CardView
+            android:id="@+id/addCardView"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/gray_circle"
-    />
-
+            app:layout_constraintTop_toBottomOf="@id/linearLayout"
+            app:cardCornerRadius="40dp">
+        <ImageView
+                android:id="@+id/addEditPhoto"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:src="@android:drawable/ic_menu_camera"
+                android:background="@drawable/gray_circle"
+                android:scaleType="centerCrop"/>
+    </android.support.v7.widget.CardView>
+    
     <ImageView
-            android:id="@+id/addPhoto"
-            android:layout_width="50dp"
-            android:layout_height="60dp"
-            app:layout_constraintStart_toStartOf="@id/addBackground"
-            app:layout_constraintEnd_toEndOf="@id/addBackground"
-            app:layout_constraintTop_toTopOf="@id/addBackground"
-            app:layout_constraintBottom_toBottomOf="@id/addBackground"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linearLayout"
+            android:background="@drawable/gray_circle"
             android:src="@android:drawable/ic_menu_camera"
     />
 
     <EditText
-            android:id="@+id/addName"
+            android:id="@+id/addEditName"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
@@ -40,11 +67,11 @@
             android:lines="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addPhoto"
+            app:layout_constraintTop_toBottomOf="@id/addCardView"
             tools:text="Name"/>
 
     <EditText
-            android:id="@+id/addNumber"
+            android:id="@+id/addEditNumber"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:textSize="25sp"
@@ -53,7 +80,7 @@
             android:hint="Phone number"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addName"
+            app:layout_constraintTop_toBottomOf="@id/addEditName"
             tools:text="010-XXXX-XXXX"/>
 
 </android.support.constraint.ConstraintLayout>
