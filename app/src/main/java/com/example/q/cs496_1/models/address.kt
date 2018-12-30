@@ -1,11 +1,6 @@
 package com.example.q.cs496_1.models
 
-class Address (name: String, number:String){
-    var name : String = name
-    var number : String = number
-    var photo : String =""
+import android.graphics.Bitmap
 
-    constructor(name: String, number: String, photo: String) : this(name,number){
-        this.photo = photo
-    }
+data class Address (val name: String, val number: String, val email:String, val photo: Bitmap?){
 }
