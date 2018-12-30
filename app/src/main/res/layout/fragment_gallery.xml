@@ -16,17 +16,9 @@
             android:layout_margin="10dp"
     />
 
-    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:id="@+id/imageGrid"
-              android:horizontalSpacing="2dp"
-              android:numColumns="auto_fit"
-              android:verticalSpacing="1dp"
-              android:gravity="center"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_alignParentTop="true"
-              android:layout_marginTop="0dp">
-    </GridView>
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/imageGrid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+    />
 </android.support.constraint.ConstraintLayout>
