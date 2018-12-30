@@ -13,8 +13,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
     private val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
     private val MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1
-
-    //var addList = arrayListOf<Address>()
+    private val MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +29,13 @@ class MainActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
                 MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE)
         }
-        
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_CONTACTS),
+                MY_PERMISSIONS_REQUEST_READ_CONTACTS)
+        }
+
+
         val fragmentAdapter = MyPagerAdapter(supportFragmentManager)
         viewPager.adapter = fragmentAdapter
         tabsMain.setupWithViewPager(viewPager)

@@ -19,9 +19,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.ImageDetailActivity"></activity>
+        <activity android:name=".activities.AddressEditActivity"></activity>
     </application>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature
             android:name="android.hardware.camera.any"
