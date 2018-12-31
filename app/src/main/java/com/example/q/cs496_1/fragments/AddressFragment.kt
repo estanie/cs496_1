@@ -46,14 +46,11 @@ class AddressFragment: Fragment(){
         addRecyclerView.setHasFixedSize(true)
 
         addFab.setOnClickListener {
-            val intentInsertEdit = Intent(Intent.ACTION_INSERT_OR_EDIT).apply {
-                // Sets the MIME type
-                type = ContactsContract.Contacts.CONTENT_ITEM_TYPE
+            val intent = Intent(Intent.ACTION_INSERT)
+            intent.type = ContactsContract.Contacts.CONTENT_TYPE
+            if(intent.resolveActivity(context.packageManager)!= null){
+                startActivity(intent)
             }
-            // Add code here to insert extended data, if desired
-
-            // Sends the Intent with an request ID
-            startActivity(intentInsertEdit)
         }
     }
     private fun getContacts() {
