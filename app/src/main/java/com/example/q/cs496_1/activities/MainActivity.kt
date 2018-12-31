@@ -8,13 +8,13 @@ import android.support.v4.content.ContextCompat
 import android.view.Window
 import com.example.q.cs496_1.R
 import com.example.q.cs496_1.adapters.MyPagerAdapter
-import com.example.q.cs496_1.models.Address
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
     private val MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1
     private val MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1
+    private val MY_PERMISSIONS_REQUEST_WRITE_CONTACTS = 1
     private val MY_PERMISSIONS_REQUEST_INTERNET = 1
     private val MY_PERMISSIONS_REQUEST_CAMERA = 1
 
@@ -42,6 +42,11 @@ class MainActivity : AppCompatActivity() {
                 android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_CONTACTS),
                 MY_PERMISSIONS_REQUEST_READ_CONTACTS)
+        }
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.WRITE_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_CONTACTS),
+                MY_PERMISSIONS_REQUEST_WRITE_CONTACTS)
         }
        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.INTERNET),

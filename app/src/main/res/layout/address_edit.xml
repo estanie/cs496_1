@@ -9,28 +9,28 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:weightSum="2">
-        <Button
-                android:id="@+id/cancel"
+        <android.support.v7.widget.AppCompatButton
+                android:id="@+id/addCancel"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Cancel"
         >
-        </Button>
-        <Button
-                android:id="@+id/save"
+        </android.support.v7.widget.AppCompatButton>
+        <android.support.v7.widget.AppCompatButton
+                android:id="@+id/addEdit"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Save"
+                android:text="Edit"
         >
-        </Button>
+        </android.support.v7.widget.AppCompatButton>
     </LinearLayout>
 
     <android.support.v7.widget.CardView
             android:id="@+id/addCardView"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginTop="30dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

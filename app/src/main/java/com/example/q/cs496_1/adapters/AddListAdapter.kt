@@ -2,15 +2,14 @@ package com.example.q.cs496_1.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.q.cs496_1.R
-import com.example.q.cs496_1.activities.AddressEditActivity
 import com.example.q.cs496_1.models.Address
 import kotlinx.android.synthetic.main.address_entry.view.*
 
@@ -42,13 +41,13 @@ class AddListAdapter (val context: Context, val addList: ArrayList<Address>) :
             itemView.addNumber.text=add.number
             itemView.addName.text=add.name
 
+
             addEntry?.setOnClickListener{
-                val intent = Intent(context, AddressEditActivity::class.java)
-                if (add.photo != null) intent.putExtra("photo",add.photo)
-                intent.putExtra("name",add.name)
-                intent.putExtra("number",add.number)
-                intent.putExtra("email",add.email)
-                context.startActivity(intent)
+                val contactUri = Uri.parse(add.address)
+                val intent = Intent(Intent.ACTION_VIEW,contactUri)
+                if (intent.resolveActivity(context.packageManager)!= null) {
+                    context.startActivity(intent)
+                }
             }
         }
     }
