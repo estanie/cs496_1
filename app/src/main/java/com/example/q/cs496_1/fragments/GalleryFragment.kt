@@ -9,6 +9,7 @@ import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.GridLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -80,8 +81,10 @@ class GalleryFragment: Fragment() {
         Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE).also {mediaScanIntent ->
             val f = File(mCurrentPhotoPath)
             mediaScanIntent.data = Uri.fromFile(f)
+            Log.e("mCurrentPhotoPath", mediaScanIntent.data.path+"")
             context!!.sendBroadcast(mediaScanIntent)
             adapter!!.addImageToList(mCurrentPhotoPath)
+            // TODO(@estanie): If take picture canceled, remove this.
         }
     }
 
@@ -92,7 +95,7 @@ class GalleryFragment: Fragment() {
         var allImageList = ArrayList<MyImage>()
         val columnIndexData = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
         while (cursor.moveToNext()) {
-            allImageList.add(MyImage(cursor.getString(columnIndexData)))
+            allImageList.add(0, MyImage(cursor.getString(columnIndexData)))
         }
         return allImageList
     }

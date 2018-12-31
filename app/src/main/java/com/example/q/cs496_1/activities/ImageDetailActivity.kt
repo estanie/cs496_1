@@ -3,9 +3,11 @@ package com.example.q.cs496_1.activities
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.View
 import android.view.Window
 import com.bumptech.glide.Glide
 import com.example.q.cs496_1.R
+import com.example.q.cs496_1.interfaces.OnSwipeTouchListener
 import kotlinx.android.synthetic.main.activity_image_detail.*
 import java.io.File
 

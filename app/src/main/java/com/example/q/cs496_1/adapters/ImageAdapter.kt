@@ -73,7 +73,7 @@ class ImageAdapter(val imageList: ArrayList<MyImage>, val context: Context) : Re
     }
 
     fun addImageToList(path: String) {
-        imageList.add(MyImage(path))
+        imageList.add(0, MyImage(path))
         notifyDataSetChanged()
     }
 
