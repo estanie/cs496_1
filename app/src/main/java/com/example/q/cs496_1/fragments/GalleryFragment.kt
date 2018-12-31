@@ -1,5 +1,6 @@
 package com.example.q.cs496_1.fragments
 
+import android.animation.Animator
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -22,6 +23,7 @@ import java.util.*
 
 class GalleryFragment: Fragment() {
     private var adapter: ImageAdapter? = null
+
     val REQUEST_IMAGE_CAPTURE = 1
     var mCurrentPhotoPath = ""
     val IMAGE_PATH = "/storage/emulated/0/DCIM/cs496_1"
@@ -60,7 +62,6 @@ class GalleryFragment: Fragment() {
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
                     galleryAddPic()
                 }
-
             }
         }
     }
