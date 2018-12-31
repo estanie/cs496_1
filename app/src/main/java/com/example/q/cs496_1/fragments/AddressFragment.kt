@@ -8,15 +8,16 @@ import android.os.Bundle
 import android.provider.ContactsContract
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.q.cs496_1.R
-import com.example.q.cs496_1.activities.AddressEditActivity
 import com.example.q.cs496_1.adapters.AddListAdapter
 import com.example.q.cs496_1.models.Address
 import kotlinx.android.synthetic.main.fragment_address.*
 import java.io.BufferedInputStream
+import java.util.*
 
 
 class AddressFragment: Fragment(){
@@ -29,50 +30,48 @@ class AddressFragment: Fragment(){
         adapter = AddListAdapter(context, addList)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         var view = inflater!!.inflate(R.layout.fragment_address, container, false)
         return view
-    } //이해 못하는 부분
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        getContacts()
-        super.onActivityCreated(savedInstanceState)
     }
+
 
     override fun onStart() {
         super.onStart()
+        var context = getActivity() as Context
+        addList = arrayListOf<Address>()
+        getContacts()
         val lm = LinearLayoutManager(context)
         addRecyclerView.layoutManager = lm
         addRecyclerView.setHasFixedSize(true)
 
-        addFab.setOnClickListener{
-            val intent = Intent(context, AddressEditActivity::class.java)
-            startActivity(intent)
+        addFab.setOnClickListener {
+            val intent = Intent(Intent.ACTION_INSERT)
+            intent.type = ContactsContract.Contacts.CONTENT_TYPE
+            if(intent.resolveActivity(context.packageManager)!= null){
+                startActivity(intent)
+            }
         }
-        // TODO(@quark325): Add data, Save data
     }
-
-    private fun getContacts(){
+    private fun getContacts() {
         var context = getActivity() as Context
         val adapter = AddListAdapter(context, getContactsData())
         addRecyclerView.adapter = adapter
     }
 
-    private fun getContactsData(): ArrayList<Address>{
+    private fun getContactsData(): ArrayList<Address> {
         var context = getActivity() as Context
-        val addressCursor = context.contentResolver.query(ContactsContract.Contacts.CONTENT_URI,null, null, null,null)
+        val addressCursor =
+            context.contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null)
 
-        if((addressCursor?.count ?: 0)>0){
-            while (addressCursor != null && addressCursor.moveToNext()){
+        if ((addressCursor?.count ?: 0) > 0) {
+            while (addressCursor != null && addressCursor.moveToNext()) {
                 val rowID = addressCursor.getString(addressCursor.getColumnIndex(ContactsContract.Contacts._ID))
-                val name = addressCursor.getString(addressCursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
-
+                val lookupKey = addressCursor.getString(addressCursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY))
+                val name =
+                    addressCursor.getString(addressCursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
                 var number = ""
-                if(addressCursor.getInt(addressCursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))>0){
+                if (addressCursor.getInt(addressCursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
 
                     val numberCursor = context.contentResolver.query(
                         ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
@@ -81,7 +80,7 @@ class AddressFragment: Fragment(){
                         arrayOf<String>(rowID),
                         null
                     )
-                    while(numberCursor.moveToNext()){
+                    while (numberCursor.moveToNext()) {
 
                         number += numberCursor.getString(
                             numberCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
@@ -98,7 +97,7 @@ class AddressFragment: Fragment(){
                     arrayOf<String>(rowID),
                     null
                 )
-                while(emailCursor.moveToNext()){
+                while (emailCursor.moveToNext()) {
 
                     email += emailCursor.getString(
                         emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
@@ -106,12 +105,18 @@ class AddressFragment: Fragment(){
                 }
                 emailCursor.close()
 
-                val contactPhotoUri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI,rowID)
-                val photoStream = ContactsContract.Contacts.openContactPhotoInputStream(context.contentResolver,contactPhotoUri)
+                val contactPhotoUri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, rowID)
+                val photoStream =
+                    ContactsContract.Contacts.openContactPhotoInputStream(context.contentResolver, contactPhotoUri)
                 val buffer = BufferedInputStream(photoStream)
                 val addressPhoto = BitmapFactory.decodeStream(buffer)
 
-                addList.add(Address(name,number,email,addressPhoto))
+                Log.e("String", addressCursor.getString(addressCursor.getColumnIndex(ContactsContract.Contacts._ID))+"!!!!A")
+                Log.e("String", addressCursor.getString(addressCursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY))+"!!!!B")
+
+                val keyword = "content://com.android.contacts/contacts/lookup/" +lookupKey + "/" + rowID
+                Log.e("String", keyword+"!!!!C")
+                addList.add(Address(name, number, email, addressPhoto, keyword))
             }
         }
 
@@ -119,5 +124,4 @@ class AddressFragment: Fragment(){
 
         return addList
     }
-
 }
