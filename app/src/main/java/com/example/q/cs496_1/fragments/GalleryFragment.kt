@@ -47,7 +47,7 @@ class GalleryFragment: Fragment() {
         return view
     }
 
-    // TODO(@estanie): It would be seperate to camera utils. :0
+    // TODO(@estanie): It would be seperate to camera utils, Also do not use this way T-T. :0
     private fun dispatchTakePictureIntent() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also {takePictureIntent ->
             takePictureIntent.resolveActivity(activity!!.packageManager)?.also {
