@@ -35,14 +35,19 @@ class FreeFragment: Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.fragment_free, container, false)
         if (date == "") date = simpleDate.format(Calendar.getInstance().time)
-        view!!.date.setText(date)
-        if (foodList == null)
+        view!!.date.setText(convertDate(date))
+        if (foodList == null) {
+            view.progress.visibility = View.VISIBLE
             GetFoodAsyncTask().execute(url)
+        }
         else {
             adapter = FoodAdapter(foodList!!, context!!)
             view!!.foodList.adapter = adapter
             view!!.foodList.layoutManager = LinearLayoutManager(context)
+            view!!.foodList.visibility = View.VISIBLE
+            view!!.progress.visibility = View.INVISIBLE
         }
+
         val current = Calendar.getInstance()
         view!!.date.setOnClickListener {
             val dpd = DatePickerDialog(activity, DatePickerDialog.OnDateSetListener{ dpview, year, month, dayOfMonth ->
@@ -51,7 +56,9 @@ class FreeFragment: Fragment() {
                 date+=""+(month+1) + "-"
                 if (dayOfMonth < 10) date += "0"
                 date += dayOfMonth
-                view!!.date.setText(date)
+                view!!.date.setText(convertDate(date))
+                view.progress.visibility = View.VISIBLE
+                view.foodList.visibility = View.INVISIBLE
                 GetFoodAsyncTask().execute(url)
             }, current.get(Calendar.YEAR), current.get(Calendar.MONTH), current.get(Calendar.DAY_OF_MONTH))
             dpd.show()
@@ -89,12 +96,30 @@ class FreeFragment: Fragment() {
                 adapter = FoodAdapter(foodList!!, context!!)
                 view!!.foodList.adapter = adapter
                 view!!.foodList.layoutManager = LinearLayoutManager(context)
+                view!!.foodList.visibility = View.VISIBLE
+                view!!.progress.visibility = View.INVISIBLE
             } catch(ex: Exception) {
                 ex.printStackTrace()
             }
         }
     }
 
+    private fun convertDate(date: String) : String {
+        var str = ""
+        var cnt = 0
+        for (i in 0..(date.length-1)) {
+            if (date[i] != '-') {
+                str += date[i]
+            }
+            else {
+                if (cnt == 0) str+="년 "
+                else if (cnt == 1) str+="월 "
+                cnt++
+            }
+        }
+        str+= "일"
+        return str
+    }
     // TODO(@estanie): Changes to Helper..
     private fun streamToString(inputStream: InputStream): String {
         val bufferReader = BufferedReader(InputStreamReader(inputStream))

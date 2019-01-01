@@ -20,6 +20,7 @@ object ImageManager {
         imageList.add(0, image)
     }
     fun getAllShownImagesPath(context: Context) : java.util.ArrayList<MyImage> {
+        imageList.clear()
         val uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val projection: Array<String> = arrayOf(MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
         var cursor = context.contentResolver.query(uri,projection, null, null, null)
