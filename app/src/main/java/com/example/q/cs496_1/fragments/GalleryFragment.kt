@@ -1,6 +1,5 @@
 package com.example.q.cs496_1.fragments
 
-import android.animation.Animator
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -15,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.q.cs496_1.R
 import com.example.q.cs496_1.adapters.ImageAdapter
+import com.example.q.cs496_1.managers.ImageManager
 import com.example.q.cs496_1.models.MyImage
 import kotlinx.android.synthetic.main.fragment_gallery.view.*
 import java.io.File
@@ -32,8 +32,8 @@ class GalleryFragment: Fragment() {
 
     override fun onAttach(cotext: Context) {
         super.onAttach(context)
-        imageList = getAllShownImagesPath(context!!)
-        adapter = ImageAdapter(imageList!!, context!!)
+        imageList = ImageManager.getAllShownImagesPath(context!!)
+        adapter = ImageAdapter(context!!)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -86,17 +86,5 @@ class GalleryFragment: Fragment() {
             adapter!!.addImageToList(mCurrentPhotoPath)
             // TODO(@estanie): If take picture canceled, remove this.
         }
-    }
-
-    private fun getAllShownImagesPath(context: Context) : ArrayList<MyImage> {
-        val uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        val projection: Array<String> = arrayOf(MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
-        var cursor = context.contentResolver.query(uri,projection, null, null, null)
-        var allImageList = ArrayList<MyImage>()
-        val columnIndexData = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
-        while (cursor.moveToNext()) {
-            allImageList.add(0, MyImage(cursor.getString(columnIndexData)))
-        }
-        return allImageList
     }
 }

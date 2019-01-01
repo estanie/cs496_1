@@ -8,6 +8,7 @@ import android.view.Window
 import com.bumptech.glide.Glide
 import com.example.q.cs496_1.R
 import com.example.q.cs496_1.interfaces.OnSwipeTouchListener
+import com.example.q.cs496_1.managers.ImageManager
 import kotlinx.android.synthetic.main.activity_image_detail.*
 import java.io.File
 
@@ -22,7 +23,7 @@ class ImageDetailActivity : AppCompatActivity() {
         val extras= intent.extras
         // TODO(@estanie): adds Image joom & joom out, Swipe to next, and go back button
         Glide.with(imgDetail)
-            .load(File(extras.getString("image")))
+            .load(File(ImageManager.getImage(extras.getInt("position")).path))
             .into(imgDetail)
     }
 

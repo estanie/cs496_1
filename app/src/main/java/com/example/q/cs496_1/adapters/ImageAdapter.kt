@@ -22,15 +22,16 @@ import com.example.q.cs496_1.models.MyImage
 import com.example.q.cs496_1.R
 import com.example.q.cs496_1.activities.ImageDetailActivity
 import com.example.q.cs496_1.helpers.DialogHelper
+import com.example.q.cs496_1.managers.ImageManager
 import kotlinx.android.synthetic.main.entry_image.view.*
 import java.io.File
 
-class ImageAdapter(val imageList: ArrayList<MyImage>, val context: Context) : RecyclerView.Adapter<ImageAdapter.Holder>() {
+class ImageAdapter(val context: Context) : RecyclerView.Adapter<ImageAdapter.Holder>() {
     private var mCurrentAnimator: Animator? = null
     private var mShortAnimationDuration: Int = 0
 
     override fun getItemCount(): Int {
-        return imageList.size
+        return ImageManager.getSize()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): Holder {
@@ -40,18 +41,19 @@ class ImageAdapter(val imageList: ArrayList<MyImage>, val context: Context) : Re
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         changeHeight(holder)
-        holder.bind(context, imageList[position])
+        holder.bind(context, position)
     }
 
 
     inner class Holder(view: View): RecyclerView.ViewHolder(view) {
         val view = view
-        fun bind(context: Context, image: MyImage) {
+        fun bind(context: Context, position: Int) {
+            val image = ImageManager.getImage(position)
             mShortAnimationDuration = context.resources.getInteger(android.R.integer.config_shortAnimTime)
             view.imgthumb.setOnClickListener {
                 // zoomImageFromThumb(view, image)
                 val intent = Intent(context, ImageDetailActivity::class.java)
-                intent.putExtra("image", image.path)
+                intent.putExtra("position", position)
                 context.startActivity(intent)
             }
 
@@ -60,7 +62,7 @@ class ImageAdapter(val imageList: ArrayList<MyImage>, val context: Context) : Re
                     val file = File(image.path)
                     file.delete()
                     context.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(File(image.path))))
-                    imageList.remove(image)
+                    ImageManager.remove(image)
                     notifyDataSetChanged()
                 }
                 true
@@ -73,7 +75,7 @@ class ImageAdapter(val imageList: ArrayList<MyImage>, val context: Context) : Re
     }
 
     fun addImageToList(path: String) {
-        imageList.add(0, MyImage(path))
+        ImageManager.add(MyImage(path))
         notifyDataSetChanged()
     }
 
