@@ -22,7 +22,7 @@ class ImageSwipeAdapter(fm: FragmentManager, position: Int): FragmentPagerAdapte
     fun addFragment() {
 
         for (i in position..ImageManager.getSize()-1) {
-            fragmentList.add(ImageFragment().newInstance(position))
+            fragmentList.add(ImageFragment().newInstance(i))
         }
 
     }
