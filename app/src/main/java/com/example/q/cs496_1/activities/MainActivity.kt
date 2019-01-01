@@ -8,8 +8,10 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Window
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.example.q.cs496_1.R
-
+import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.Thread.sleep
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,12 +26,9 @@ class MainActivity : AppCompatActivity() {
         )
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
-
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
-        supportActionBar!!.hide()
-        setContentView(R.layout.activity_main)
-
+  //      setContentView(R.layout.activity_main)
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
             sendIntent()
         }else {
@@ -55,6 +54,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun sendIntent(){
+        sleep(1000)
         val intent = Intent(this,FragmentActivity::class.java)
         startActivity(intent)
         finish()
