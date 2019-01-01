@@ -1,63 +1,71 @@
 package com.example.q.cs496_1.activities
 
+import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
 import android.view.Window
+import android.widget.Toast
 import com.example.q.cs496_1.R
-import com.example.q.cs496_1.adapters.MyPagerAdapter
-import kotlinx.android.synthetic.main.activity_main.*
+
+
 
 class MainActivity : AppCompatActivity() {
-    private val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
-    private val MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1
-    private val MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1
-    private val MY_PERMISSIONS_REQUEST_WRITE_CONTACTS = 1
-    private val MY_PERMISSIONS_REQUEST_INTERNET = 1
-    private val MY_PERMISSIONS_REQUEST_CAMERA = 1
 
+    var permission_list = arrayOf(
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_CONTACTS,
+        Manifest.permission.WRITE_CONTACTS,
+        Manifest.permission.INTERNET,
+        Manifest.permission.CAMERA
+        )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         supportActionBar!!.hide()
-
         setContentView(R.layout.activity_main)
 
-        //TODO(@estanie): If the user installed once, makes don't exit.
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
-                MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+            sendIntent()
+        }else {
+            for (permission: String in permission_list) {
+                var chk = checkCallingOrSelfPermission(permission)
+                if (chk == PackageManager.PERMISSION_DENIED) {
+                    requestPermissions(permission_list, 0)
+                    break
+                }
+            }
+            if(checkPermission()) sendIntent()
         }
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if(checkPermission()){
+            val intent = Intent(this,FragmentActivity::class.java)
+            startActivity(intent)
+        }else {
+            Toast.makeText(this, "앱 이용을 위해 모든 관리권환을 활성화 해주세요", Toast.LENGTH_SHORT).show()
         }
-       if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_CONTACTS),
-                MY_PERMISSIONS_REQUEST_READ_CONTACTS)
+        finish()
+    }
+
+    private fun sendIntent(){
+        val intent = Intent(this,FragmentActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun checkPermission() : Boolean{
+        var check = true
+        for (permission in permission_list){
+            var chk = checkCallingOrSelfPermission(permission)
+            if (chk == PackageManager.PERMISSION_DENIED) check = false
         }
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.WRITE_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_CONTACTS),
-                MY_PERMISSIONS_REQUEST_WRITE_CONTACTS)
-        }
-       if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.INTERNET),
-                MY_PERMISSIONS_REQUEST_INTERNET)
-        }
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA),
-                MY_PERMISSIONS_REQUEST_CAMERA)
-        }
-        val fragmentAdapter = MyPagerAdapter(supportFragmentManager)
-        viewPager.adapter = fragmentAdapter
-        tabsMain.setupWithViewPager(viewPager)
+        return check
     }
 }
