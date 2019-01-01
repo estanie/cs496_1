@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Window
 import com.example.q.cs496_1.R
 import com.example.q.cs496_1.adapters.MyPagerAdapter
+import com.example.q.cs496_1.managers.FragmentListManager
 import kotlinx.android.synthetic.main.framgent_main.*
 
 class FragmentActivity : AppCompatActivity() {
@@ -17,6 +18,7 @@ class FragmentActivity : AppCompatActivity() {
         setContentView(R.layout.framgent_main)
 
         val fragmentAdapter = MyPagerAdapter(supportFragmentManager)
+        FragmentListManager.makeFragmentList()
         viewPager.adapter = fragmentAdapter
         tabsMain.setupWithViewPager(viewPager)
 

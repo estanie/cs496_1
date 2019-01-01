@@ -8,6 +8,7 @@ import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -32,14 +33,14 @@ class GalleryFragment: Fragment() {
 
     override fun onAttach(cotext: Context) {
         super.onAttach(context)
-        imageList = ImageManager.getAllShownImagesPath(context!!)
+        ImageManager.getAllShownImagesPath(context!!)
         adapter = ImageAdapter(context!!)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         var view = inflater.inflate(R.layout.fragment_gallery, container, false)
         view.imageGrid.adapter = adapter
-        view.imageGrid.layoutManager = GridLayoutManager(context, 3)
+        view.imageGrid.layoutManager = GridLayoutManager(context, 3) as RecyclerView.LayoutManager?
 
         view.addImgFab.setOnClickListener { view ->
             dispatchTakePictureIntent()

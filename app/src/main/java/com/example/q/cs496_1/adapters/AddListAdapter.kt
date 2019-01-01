@@ -24,7 +24,7 @@ class AddListAdapter (val context: Context, val addList: ArrayList<Address>) :
         return addList.size
     }
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder?.bind(addList[position], context)
+        holder.bind(addList[position], context)
     }
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!){
