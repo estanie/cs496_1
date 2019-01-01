@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.provider.ContactsContract
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,9 +31,9 @@ class AddressFragment: Fragment(){
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         var view = inflater!!.inflate(R.layout.fragment_address, container, false)
+
         return view
     }
-
 
     override fun onStart() {
         super.onStart()
@@ -110,18 +109,13 @@ class AddressFragment: Fragment(){
                     ContactsContract.Contacts.openContactPhotoInputStream(context.contentResolver, contactPhotoUri)
                 val buffer = BufferedInputStream(photoStream)
                 val addressPhoto = BitmapFactory.decodeStream(buffer)
-
-                Log.e("String", addressCursor.getString(addressCursor.getColumnIndex(ContactsContract.Contacts._ID))+"!!!!A")
-                Log.e("String", addressCursor.getString(addressCursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY))+"!!!!B")
-
                 val keyword = "content://com.android.contacts/contacts/lookup/" +lookupKey + "/" + rowID
-                Log.e("String", keyword+"!!!!C")
                 addList.add(Address(name, number, email, addressPhoto, keyword))
             }
         }
 
         addressCursor.close()
-
-        return addList
+        val sortedList = ArrayList(addList.sortedWith(compareBy({it.name})))
+        return sortedList
     }
 }

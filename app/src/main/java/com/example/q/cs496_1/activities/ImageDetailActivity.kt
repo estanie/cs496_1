@@ -2,7 +2,6 @@ package com.example.q.cs496_1.activities
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.Window
 import com.bumptech.glide.Glide
 import com.example.q.cs496_1.R

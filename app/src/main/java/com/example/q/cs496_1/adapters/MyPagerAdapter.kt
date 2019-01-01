@@ -3,6 +3,7 @@ package com.example.q.cs496_1.adapters
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import android.util.Log
 import com.example.q.cs496_1.fragments.AddressFragment
 import com.example.q.cs496_1.fragments.FreeFragment
 import com.example.q.cs496_1.fragments.GalleryFragment
