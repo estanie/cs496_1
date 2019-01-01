@@ -4,10 +4,8 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.os.AsyncTask
 import android.os.Bundle
-import android.provider.Contacts
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.text.PrecomputedText
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,21 +13,16 @@ import android.view.ViewGroup
 import com.example.q.cs496_1.R
 import com.example.q.cs496_1.adapters.FoodAdapter
 import com.example.q.cs496_1.models.Food
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.fragment_free.view.*
-import retrofit2.Retrofit
-import retrofit2.http.GET
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.*
-import kotlin.coroutines.*
 
 class FreeFragment: Fragment() {
     val CONNECTION_TIMEOUT_MILLISECONDS = 60000
@@ -38,10 +31,7 @@ class FreeFragment: Fragment() {
     val url = "http://api.epthy.com:5000/food/"
     val simpleDate = SimpleDateFormat("yyyy-MM-dd")
     var date = ""
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
 
-    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.fragment_free, container, false)
         if (date == "") date = simpleDate.format(Calendar.getInstance().time)
