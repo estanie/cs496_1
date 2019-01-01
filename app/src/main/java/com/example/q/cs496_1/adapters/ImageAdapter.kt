@@ -88,7 +88,7 @@ class ImageAdapter(val context: Context) : RecyclerView.Adapter<ImageAdapter.Hol
         holder.view.imgthumb.layoutParams.height = displayMetrics.widthPixels / 3
     }
 
-    // TODO(@estanie): Don't works T0T
+/*    // TODO(@estanie): Don't works T0T
     private fun zoomImageFromThumb(view: View, image: MyImage) {
         mCurrentAnimator?.cancel()
 
@@ -178,5 +178,5 @@ class ImageAdapter(val context: Context) : RecyclerView.Adapter<ImageAdapter.Hol
                 start()
             }
         }
-    }
+    }*/
 }

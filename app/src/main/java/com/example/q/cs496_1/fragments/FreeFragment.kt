@@ -56,7 +56,9 @@ class FreeFragment: Fragment() {
         val current = Calendar.getInstance()
         view!!.date.setOnClickListener {
             val dpd = DatePickerDialog(activity, DatePickerDialog.OnDateSetListener{ dpview, year, month, dayOfMonth ->
-                date = ""+year+"-"+(month+1)+"-"
+                date = ""+year+"-"
+                if (month < 10) date+= "0"
+                date+=""+(month+1) + "-"
                 if (dayOfMonth < 10) date += "0"
                 date += dayOfMonth
                 view!!.date.setText(date)
