@@ -31,7 +31,7 @@ class MyPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         return when (position) {
             0 -> "PhoneBook"
             1 -> "Gallery"
-            else -> return "Free"
+            else -> return "Food"
         }
     }
 }

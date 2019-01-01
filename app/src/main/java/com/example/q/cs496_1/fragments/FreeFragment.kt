@@ -1,7 +1,13 @@
 package com.example.q.cs496_1.fragments
 
+import android.app.DatePickerDialog
+import android.content.Context
+import android.os.AsyncTask
 import android.os.Bundle
+import android.provider.Contacts
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.text.PrecomputedText
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,26 +16,111 @@ import com.example.q.cs496_1.R
 import com.example.q.cs496_1.adapters.FoodAdapter
 import com.example.q.cs496_1.models.Food
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.fragment_free.view.*
+import retrofit2.Retrofit
+import retrofit2.http.GET
+import java.io.BufferedReader
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.util.*
+import kotlin.coroutines.*
 
-class FreeFragment: Fragment(){
+class FreeFragment: Fragment() {
+    val CONNECTION_TIMEOUT_MILLISECONDS = 60000
     private var adapter: FoodAdapter? = null
-
     var foodList: ArrayList<Food>? = null
+    val url = "http://api.epthy.com:5000/food/"
+    val simpleDate = SimpleDateFormat("yyyy-MM-dd")
+    var date = ""
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
 
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        var view = inflater!!.inflate(R.layout.fragment_free, container, false)
-        foodList = getTodaysFood()
-        adapter = FoodAdapter(foodList!!, context!!)
-        view.foodList.adapter = adapter
+        val view = inflater.inflate(R.layout.fragment_free, container, false)
+        if (date == "") date = simpleDate.format(Calendar.getInstance().time)
+        view!!.date.setText(date)
+        if (foodList == null)
+            GetFoodAsyncTask().execute(url)
+        else {
+            adapter = FoodAdapter(foodList!!, context!!)
+            view!!.foodList.adapter = adapter
+            view!!.foodList.layoutManager = LinearLayoutManager(context)
+        }
+        val current = Calendar.getInstance()
+        view!!.date.setOnClickListener {
+            val dpd = DatePickerDialog(activity, DatePickerDialog.OnDateSetListener{ dpview, year, month, dayOfMonth ->
+                date = ""+year+"-"
+                if (month < 10) date+= "0"
+                date+=""+(month+1) + "-"
+                if (dayOfMonth < 10) date += "0"
+                date += dayOfMonth
+                view!!.date.setText(date)
+                GetFoodAsyncTask().execute(url)
+            }, current.get(Calendar.YEAR), current.get(Calendar.MONTH), current.get(Calendar.DAY_OF_MONTH))
+            dpd.show()
+        }
+
         return view
     }
 
-    private fun getTodaysFood() : ArrayList<Food> {
-        var foodList = ArrayList<Food>()
-        // val json = [{"time": "\uc870\uc2dd", "food": ""}, {"time": "\uc911\uc2dd", "food": "\uae30\uc7a5\ubc25\r\n\ucf69\ub098\ubb3c\uad6d\r\n\ub5a1\ubd88\uace0\uae30\r\n\uac10\uc790\ucc44\ubcf6\uc74c\r\n\ubaa9\uc774\ubc84\uc12f\ucd08\ubb34\uce68\r\n\ubc30\ucd94\uac89\uc808\uc774\r\n\uc591\uc0c1\ucd94\uc0d0\ub7ec\ub4dc\r\n\uc728\ubb34\ucc28\n"}, {"time": "\uc11d\uc2dd", "food": "\uc300 \ubc25\r\n\ub3fc\uc9c0\uace0\uae30\uae40\uce58\ucc0c\uac1c\r\n\ud574\ubb3c\ud30c\uc804\r\n\uc7a1\ucc44\uc5b4\ubb35\ubcf6\uc74c\r\n\uc0c1\ucd94\uac89\uc808\uc774\r\n\uae4d\ub450\uae30\r\n\uc591\uc0c1\ucd94\uc0d0\ub7ec\ub4dc\n"}]
-        // val gson: Gson()
-        // TODO(@estanie): Implement Here.
-        return foodList
+    inner class GetFoodAsyncTask: AsyncTask<String, String, String>() {
+        override fun doInBackground(vararg urls: String?): String {
+            var urlConnection: HttpURLConnection? = null
+            try {
+                val url = URL(urls[0]+date)
+                urlConnection = url.openConnection() as HttpURLConnection
+                urlConnection.connectTimeout = CONNECTION_TIMEOUT_MILLISECONDS
+                var inString = streamToString(urlConnection.inputStream)
+
+                publishProgress(inString)
+            } catch(ex:Exception) {
+
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect()
+                }
+            }
+            return " "
+        }
+
+        override fun onProgressUpdate(vararg values: String?) {
+            try {
+                val gson = GsonBuilder().create()
+                val json: String = gson.fromJson(values[0], object : TypeToken<String>() {}.type)
+                Log.e("TEST", json)
+                foodList = gson.fromJson(json, object : TypeToken<List<Food>>() {}.type)
+                adapter = FoodAdapter(foodList!!, context!!)
+                view!!.foodList.adapter = adapter
+                view!!.foodList.layoutManager = LinearLayoutManager(context)
+            } catch(ex: Exception) {
+                ex.printStackTrace()
+            }
+        }
+    }
+
+    // TODO(@estanie): Changes to Helper..
+    private fun streamToString(inputStream: InputStream): String {
+        val bufferReader = BufferedReader(InputStreamReader(inputStream))
+        var line: String
+        var result = ""
+        try {
+            do {
+                line = bufferReader.readLine()
+                if (line != null) {
+                    result+=line
+                }
+            } while (line != null)
+            inputStream.close()
+        } catch(ex: Exception) {
+            ex.printStackTrace()
+        }
+        return result
     }
 }

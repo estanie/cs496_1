@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-                                             android:layout_height="match_parent">
-
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:id="@+id/constraintLayout"
+                                             android:layout_width="wrap_content"
+                                             android:layout_height="wrap_content"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto">
+<!-- TODO(@estanie): 카드 형식으로 바꾸기 -->
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/timeInfo"/>
+            android:id="@+id/timeInfo"
+            android:text="TIME"
+            android:layout_margin="5dp"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary600"
+            app:layout_constraintTop_toTopOf="parent"
+    />
+
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/foods"
-        />
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:id="@+id/foods"
+            android:text="MENU"
+            android:layout_margin="5dp"
+            android:textSize="15sp"
+            android:textColor="@color/colorPrimary700"
+            app:layout_constraintTop_toBottomOf="@+id/timeInfo"/>
+
 </android.support.constraint.ConstraintLayout>
