@@ -20,11 +20,10 @@ class ImageSwipeAdapter(fm: FragmentManager, position: Int): FragmentPagerAdapte
     }
 
     fun addFragment() {
-
-        for (i in position..ImageManager.getSize()-1) {
+        // TODO(@estanie): 킬때마다 계속 새로 만든다...
+        for (i in 0..ImageManager.getSize()-1) {
             fragmentList.add(ImageFragment().newInstance(i))
         }
-
     }
 
 }

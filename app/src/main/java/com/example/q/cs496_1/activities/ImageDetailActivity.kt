@@ -15,12 +15,10 @@ import java.lang.Exception
 
 class ImageDetailActivity : AppCompatActivity() {
     var position = 0
-    // private var gestureDetector: GestureDetector? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         supportActionBar!!.hide()
-        // gestureDetector = GestureDetector(this@ImageDetailActivity, GestureListener())
         setContentView(R.layout.activity_image_detail)
 
         val extras= intent.extras
@@ -29,7 +27,7 @@ class ImageDetailActivity : AppCompatActivity() {
         var imageSwipeAdapter = ImageSwipeAdapter(supportFragmentManager, position)
         imageSwipeAdapter.addFragment()
         imageViewPager.adapter = imageSwipeAdapter
-
+        imageViewPager.currentItem = position
         // TODO(@estanie): adds Image joom & joom out, Swipe to next, and go back button
 
     }
