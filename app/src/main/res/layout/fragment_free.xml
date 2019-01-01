@@ -16,11 +16,17 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/foodList"
     />
+    <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/date"/>
     <android.support.v7.widget.RecyclerView
             android:id="@+id/foodList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/date"
             android:paddingBottom="50dp"
+            android:visibility="invisible"
     />
 </android.support.constraint.ConstraintLayout>
