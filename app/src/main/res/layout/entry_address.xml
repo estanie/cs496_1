@@ -26,20 +26,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:textSize="23sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/addPhoto"
             app:layout_constraintTop_toTopOf="@+id/addPhoto"
-            tools:text="Name"/>
+            app:fontFamily="@font/nanumgothic_regular"
+            tools:text="Name"
+            />
 
     <TextView
             android:id="@+id/addNumber"
             android:layout_width="wrap_content"
-            android:layout_height="17dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:textSize="15sp"
+            android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/addPhoto"
-            app:layout_constraintTop_toBottomOf="@+id/addName"
-            tools:text="010-XXXX-XXXX"/>
+            app:layout_constraintBottom_toBottomOf="@id/addPhoto"
+            tools:text="010-XXXX-XXXX"
+            />
 
 </android.support.constraint.ConstraintLayout>
