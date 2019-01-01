@@ -11,13 +11,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.q.cs496_1.R
 import com.example.q.cs496_1.models.Address
-import kotlinx.android.synthetic.main.address_entry.view.*
+import kotlinx.android.synthetic.main.entry_address.view.*
 
 class AddListAdapter (val context: Context, val addList: ArrayList<Address>) :
     RecyclerView.Adapter<AddListAdapter.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder{
-        val view = LayoutInflater.from(context).inflate(R.layout.address_entry, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.entry_address, parent, false)
         return Holder(view)
     }
     override fun getItemCount(): Int {
